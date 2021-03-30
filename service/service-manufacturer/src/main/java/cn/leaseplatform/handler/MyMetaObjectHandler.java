@@ -37,3 +37,8 @@ public class MyMetaObjectHandler implements MetaObjectHandler {
         this.strictUpdateFill(metaObject,"updateTime",LocalDateTime.class,LocalDateTime.now());
     }
 }
+
+
+
+
+

@@ -1,0 +1,18 @@
+server:
+  port: 8002
+spring:
+  application:
+    name: service-oss
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  profiles:
+    active: dev
+aliyun:
+  oss:
+    file:
+      endpoint: oss-cn-chengdu.aliyuncs.com
+      keyid: LTAI5t9V6vrUs3a9gnC11nFZ
+      keysecret: IdFzsQDwRanHVigtLfDOAuwxXuocoW
+      bucketname: leaseplatform

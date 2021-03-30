@@ -1,0 +1,8 @@
+cn\leaseplatform\ServiceOssApplication.class
+cn\leaseplatform\utils\ConstantPropertiesUtil.class
+cn\leaseplatform\service\impl\FileServiceImpl.class
+cn\leaseplatform\service\OssService.class
+cn\leaseplatform\controller\FileController.class
+cn\leaseplatform\service\FileService.class
+cn\leaseplatform\service\impl\OssServiceImpl.class
+cn\leaseplatform\controller\OssController.class

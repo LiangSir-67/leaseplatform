@@ -1,0 +1,20 @@
+server:
+  port: 8091
+spring:
+  application:
+    name: service-manufacturer
+  cloud:
+    nacos:
+      discovery:
+        server-addr: 127.0.0.1:8848
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://rm-2vc4qeubiy21d7jr3yo.mysql.cn-chengdu.rds.aliyuncs.com:3306/leaseplatform?useUnicode=true&useSSL=false&characterEncoding=utf8&serverTimezone=GMT%2B8
+    username: liangyy
+    password: root2222
+  profiles:
+    active: dev
+mybatis-plus:
+  mapper-locations: classpath*:/mapper/**Mapper.xml
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl   # mybatis日志

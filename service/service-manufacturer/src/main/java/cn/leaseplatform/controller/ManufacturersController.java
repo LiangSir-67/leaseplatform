@@ -35,16 +35,29 @@ public class ManufacturersController {
     @PostMapping("/login")
     public R login(@ApiParam(name = "loginvo", value = "登陆对象", required = true)
                    @RequestBody LoginVo loginVo) {
-        String token = manufacturersService.login(loginVo);
-        return R.ok().data("token", token);
+        try {
+            String token = manufacturersService.login(loginVo);
+            return R.ok().data("token", token);
+
+        } catch (Exception e) {
+            return R.error().message("用户名或者密码错误");
+        }
+
+
     }
+
 
     @ApiOperation(value = "商家注册")
     @PostMapping("/register")
     public R register(@ApiParam(name = "registervo", value = "注册对象", required = true)
                       @RequestBody RegisterVo registerVo) {
-        manufacturersService.register(registerVo);
-        return R.ok();
+        try{
+            manufacturersService.register(registerVo);
+            return R.ok();
+        }catch (Exception e){
+            return R.error().message("注册失败");
+
+        }
     }
 
     @GetMapping("auth/getLoginInfo")
@@ -52,11 +65,14 @@ public class ManufacturersController {
     public R getLoginInfo(HttpServletRequest request) {
         try {
             String Id = JwtUtils.getMemberIdByJwtToken(request);
+            System.out.println("用户id为");
+            System.out.println(Id);
             LoginVo loginVo = manufacturersService.getLoginInfo(Id);
             return R.ok().data("item", loginVo);
         } catch (Exception e) {
             e.printStackTrace();
-            throw new LPException(201, "error");
+            //throw new LPException(201, "error");
+            return R.error();
         }
     }
 

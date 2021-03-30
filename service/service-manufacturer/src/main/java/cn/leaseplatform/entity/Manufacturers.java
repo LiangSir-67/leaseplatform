@@ -39,6 +39,9 @@ public class Manufacturers implements Serializable {
     @ApiModelProperty(value = "商户密码")
     private String password;
 
+    @ApiModelProperty(value = "手机号")
+    private String phone;
+
     @ApiModelProperty(value = "商户图片")
     private String url;
 

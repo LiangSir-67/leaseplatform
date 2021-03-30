@@ -1,5 +1,0 @@
-cn\leaseplatform\ServiceMsmApplication.class
-cn\leaseplatform\utils\RandomUtil.class
-cn\leaseplatform\controller\MsmController.class
-cn\leaseplatform\service\MsmService.class
-cn\leaseplatform\service\impl\MsmServiceImpl.class

@@ -1,9 +1,0 @@
-cn\leaseplatform\controller\UserController.class
-cn\leaseplatform\ServiceUserApplication.class
-cn\leaseplatform\handler\MyMetaObjectHandler.class
-cn\leaseplatform\mapper\UserMapper.class
-cn\leaseplatform\config\MyBatisPlusConfig.class
-cn\leaseplatform\service\impl\UserServiceImpl.class
-cn\leaseplatform\controller\TestController.class
-cn\leaseplatform\entity\User.class
-cn\leaseplatform\service\UserService.class

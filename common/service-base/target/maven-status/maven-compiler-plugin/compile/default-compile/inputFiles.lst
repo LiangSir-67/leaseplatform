@@ -1,4 +1,4 @@
-D:\LiangSir\IdeaProjects\leaseplatform-parent\common\service-base\src\main\java\cn\leaseplatform\servicebase\config\SwaggerConfig.java
-D:\LiangSir\IdeaProjects\leaseplatform-parent\common\service-base\src\main\java\cn\leaseplatform\servicebase\ServiceBaseApplication.java
-D:\LiangSir\IdeaProjects\leaseplatform-parent\common\service-base\src\main\java\cn\leaseplatform\servicebase\exceptionhandler\GlobalExceptionHandler.java
-D:\LiangSir\IdeaProjects\leaseplatform-parent\common\service-base\src\main\java\cn\leaseplatform\servicebase\exceptionhandler\LPException.java
+M:\比赛项目\pro\leaseplatform\common\service-base\src\main\java\cn\leaseplatform\servicebase\exceptionhandler\LPException.java
+M:\比赛项目\pro\leaseplatform\common\service-base\src\main\java\cn\leaseplatform\servicebase\ServiceBaseApplication.java
+M:\比赛项目\pro\leaseplatform\common\service-base\src\main\java\cn\leaseplatform\servicebase\config\SwaggerConfig.java
+M:\比赛项目\pro\leaseplatform\common\service-base\src\main\java\cn\leaseplatform\servicebase\exceptionhandler\GlobalExceptionHandler.java

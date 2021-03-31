@@ -4,6 +4,8 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.EqualsAndHashCode;
+import lombok.experimental.Accessors;
 
 import java.io.Serializable;
 
@@ -14,6 +16,8 @@ import java.io.Serializable;
  */
 @ApiModel(value = "用户登录对象",description = "用户登录对象")
 @Data
+@EqualsAndHashCode(callSuper = false)
+@Accessors(chain = true)
 public class UserLoginVo implements Serializable {
     @ApiModelProperty(value = "用户名")
     private String username;

@@ -12,13 +12,16 @@ import cn.leaseplatform.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
@@ -96,7 +99,7 @@ public class UserController {
 
     @ApiOperation(value = "个人账户登录")
     @PostMapping("/userLogin")
-    public R userLogin(@RequestBody UserLoginVo userLoginVo){
+    public R userLogin(@RequestBody UserLoginVo userLoginVo, HttpServletResponse httpServletResponse){
         String token = null;
         try {
             token = userService.login(userLoginVo);
@@ -106,12 +109,14 @@ public class UserController {
             log.error(ExceptionUtil.getMessage(e));
             return R.error().message("登录失败！");
         }
-
     }
 
     @ApiOperation(value = "根据token获取登录信息")
     @GetMapping("/auth/getLoginInfo")
     public R getUserLoginInfo(HttpServletRequest request) {
+        // 获取请求头中的token
+        String token = request.getHeader("token");
+
         try {
             String userId = JwtUtils.getMemberIdByJwtToken(request);
             UserLoginVo userLoginVo = userService.getLoginInfo(userId);

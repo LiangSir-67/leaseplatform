@@ -2,22 +2,19 @@ package cn.leaseplatform.service.impl;
 
 import cn.hutool.crypto.SecureUtil;
 import cn.leaseplatform.commonutils.JwtUtils;
-import cn.leaseplatform.commonutils.R;
 import cn.leaseplatform.entity.User;
-import cn.leaseplatform.entity.UserLoginVo;
-import cn.leaseplatform.entity.UserRegisterVo;
+import cn.leaseplatform.vo.UserLoginVo;
+import cn.leaseplatform.vo.UserRegisterVo;
 import cn.leaseplatform.mapper.UserMapper;
 import cn.leaseplatform.service.UserService;
 import cn.leaseplatform.servicebase.exceptionhandler.LPException;
 import com.alibaba.csp.sentinel.util.StringUtil;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.extension.service.impl.ServiceImpl;
-import com.mysql.cj.util.StringUtils;
 import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
-import org.springframework.web.bind.annotation.RequestBody;
 
 /**
  * <p>
@@ -32,6 +29,9 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
 
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
+
+    @Autowired
+    private UserMapper userMapper;
 
     /**
      * 用户注册
@@ -113,5 +113,29 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         UserLoginVo userLoginVo = new UserLoginVo();
         BeanUtils.copyProperties(user,userLoginVo);
         return userLoginVo;
+    }
+
+    /**
+     * 修改用户头像
+     * @param userId
+     * @param url
+     */
+    @Override
+    public Integer updateUserHeadPortrait(String userId, String url) {
+        User user = baseMapper.selectById(userId);
+        user.setUrl(url);
+        return userMapper.updateById(user);
+    }
+
+    /**
+     * 修改用户信息
+     * @param userId
+     * @param address
+     */
+    @Override
+    public Integer updateUserInfo(String userId, String address) {
+        User user = baseMapper.selectById(userId);
+        user.setAddress(address);
+        return userMapper.updateById(user);
     }
 }

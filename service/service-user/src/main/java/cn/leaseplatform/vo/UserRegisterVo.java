@@ -1,8 +1,10 @@
-package cn.leaseplatform.entity;
+package cn.leaseplatform.vo;
 
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+
+import java.io.Serializable;
 
 /**
  * @Author: 梁歪歪 <1732178815@qq.com>
@@ -11,7 +13,7 @@ import lombok.Data;
  */
 @ApiModel(value = "用户注册对象",description = "用户注册对象")
 @Data
-public class UserRegisterVo {
+public class UserRegisterVo implements Serializable {
 
     @ApiModelProperty(value = "用户名")
     private String username;

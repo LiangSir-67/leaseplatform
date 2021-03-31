@@ -37,7 +37,6 @@ public class ManufacturerOrderController {
         IPage<ManufacturerOrder> manufacturerOrderIPage =
                 manufacturerOrderMapper.selectPage(page,new QueryWrapper<ManufacturerOrder>().orderByDesc("create_time"));
         return R.ok().data("manufacturersInfo",manufacturerOrderIPage);
-
     }
 
 }

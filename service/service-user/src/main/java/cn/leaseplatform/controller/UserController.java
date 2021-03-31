@@ -1,12 +1,12 @@
 package cn.leaseplatform.controller;
 
 
-import cn.hutool.crypto.SecureUtil;
+import cn.leaseplatform.commonutils.ExceptionUtil;
 import cn.leaseplatform.commonutils.JwtUtils;
 import cn.leaseplatform.commonutils.R;
 import cn.leaseplatform.entity.User;
-import cn.leaseplatform.entity.UserLoginVo;
-import cn.leaseplatform.entity.UserRegisterVo;
+import cn.leaseplatform.vo.UserLoginVo;
+import cn.leaseplatform.vo.UserRegisterVo;
 import cn.leaseplatform.mapper.UserMapper;
 import cn.leaseplatform.service.UserService;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
@@ -14,11 +14,11 @@ import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
-import java.util.List;
 
 /**
  * <p>
@@ -31,6 +31,7 @@ import java.util.List;
 @Api(tags = "用户服务")
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
 
     @Autowired
@@ -61,8 +62,6 @@ public class UserController {
     public R testGetUserList(@RequestParam(defaultValue = "1") Integer currentPage){
         Page<User> page = new Page<>(currentPage, 10);
         IPage<User> userIPage = userMapper.selectPage(page, new QueryWrapper<User>().orderByDesc("create_time"));
-        // List<User> users = userMapper.selectList(null);
-        // users.forEach(System.out::println);
         return R.ok().data("userInfo",userIPage);
     }
 
@@ -90,6 +89,7 @@ public class UserController {
             return R.ok().message("注册成功！");
         } catch (Exception e) {
             e.printStackTrace();
+            log.error(ExceptionUtil.getMessage(e));
             return R.error().message("注册失败！");
         }
     }
@@ -103,6 +103,7 @@ public class UserController {
             return R.ok().data("token",token).message("登录成功！");
         } catch (Exception e) {
             e.printStackTrace();
+            log.error(ExceptionUtil.getMessage(e));
             return R.error().message("登录失败！");
         }
 
@@ -117,7 +118,35 @@ public class UserController {
             return R.ok().data("item", userLoginVo);
         } catch (Exception e) {
             e.printStackTrace();
+            log.error(ExceptionUtil.getMessage(e));
             return R.error().message("获取用户登录信息失败！");
         }
+    }
+
+    @ApiOperation(value = "修改用户头像")
+    @PostMapping("/updateUserHeadPortrait")
+    public R updateUserHeadPortrait(@RequestParam String userId, @RequestParam String url){
+        try {
+            Integer result = userService.updateUserHeadPortrait(userId, url);
+            return R.ok().message("修改成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(ExceptionUtil.getMessage(e));
+            return R.error().message("修改失败！");
+        }
+    }
+
+    @ApiOperation(value = "用户修改信息")
+    @PostMapping("/updateUserInfo")
+    public R updateUserInfo(@RequestParam String userId,@RequestParam String address){
+        try {
+            Integer result = userService.updateUserInfo(userId, address);
+            return R.ok().message("修改成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(ExceptionUtil.getMessage(e));
+            return R.error().message("修改失败！");
+        }
+
     }
 }

@@ -38,7 +38,6 @@ public class ManufacturersController {
         try {
             String token = manufacturersService.login(loginVo);
             return R.ok().data("token", token);
-
         } catch (Exception e) {
             return R.error().message("用户名或者密码错误");
         }

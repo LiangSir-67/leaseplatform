@@ -2,6 +2,9 @@ package cn.leaseplatform.mapper;
 
 import cn.leaseplatform.entity.PersonalOrders;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Select;
+
+import java.util.List;
 
 /**
  * <p>

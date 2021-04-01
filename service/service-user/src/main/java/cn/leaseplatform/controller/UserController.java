@@ -5,10 +5,12 @@ import cn.leaseplatform.commonutils.ExceptionUtil;
 import cn.leaseplatform.commonutils.JwtUtils;
 import cn.leaseplatform.commonutils.R;
 import cn.leaseplatform.entity.User;
+import cn.leaseplatform.utils.UserJwtTokenUtils;
 import cn.leaseplatform.vo.UserLoginVo;
 import cn.leaseplatform.vo.UserRegisterVo;
 import cn.leaseplatform.mapper.UserMapper;
 import cn.leaseplatform.service.UserService;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
@@ -38,51 +40,10 @@ import javax.servlet.http.HttpServletResponse;
 public class UserController {
 
     @Autowired
-    private UserMapper userMapper;
-
-    @Autowired
     private UserService userService;
 
-    @ApiOperation(value = "测试-添加")
-    @GetMapping("/insert")
-    public void testInsert(){
-        User user = new User();
-        user.setRealname("疾风剑豪");
-        user.setUsername("亚索");
-        user.setSex("男");
-        user.setPassword("234dsf");
-        user.setTelephone("15500432343");
-        user.setUrl("https://gitee.com/liangsir-67/imagerepo/raw/master/img/20210303215459.png");
-        user.setAddress("四川成都");
-
-        int result = userMapper.insert(user);
-        System.out.println("影响的行数："+result);
-        System.out.println(user);
-    }
-
-    @ApiOperation(value = "测试-获取用户列表")
-    @GetMapping("/getUser")
-    public R testGetUserList(@RequestParam(defaultValue = "1") Integer currentPage){
-        Page<User> page = new Page<>(currentPage, 10);
-        IPage<User> userIPage = userMapper.selectPage(page, new QueryWrapper<User>().orderByDesc("create_time"));
-        return R.ok().data("userInfo",userIPage);
-    }
-
-    @ApiOperation(value = "测试-通过id修改用户信息")
-    @GetMapping("/updateById")
-    public void testUpdateById(){
-        User user = new User();
-        user.setUserId(109);
-        user.setUsername("锐雯");
-        user.setSex("女");
-        user.setPassword("23dsf4dsf");
-        user.setTelephone("15540432343");
-        user.setUrl("https://gitee.com/liangsir-67/imagerepo/raw/master/img/20210303215459.png");
-        user.setAddress("四川成都");
-        int result = userMapper.updateById(user);
-        System.out.println("被影响的行数："+result);
-    }
-
+    @Autowired
+    private UserMapper userMapper;
 
     @ApiOperation(value = "个人账户注册")
     @PostMapping("/userRegister")
@@ -115,12 +76,15 @@ public class UserController {
     @GetMapping("/auth/getLoginInfo")
     public R getUserLoginInfo(HttpServletRequest request) {
         // 获取请求头中的token
-        String token = request.getHeader("token");
-
+        //String token = request.getHeader("token");
+        //DecodedJWT verify = UserJwtTokenUtils.verify(token);
         try {
-            String userId = JwtUtils.getMemberIdByJwtToken(request);
+            //String userId = verify.getClaim("userId").asString();
+            String userId = UserJwtTokenUtils.getInfoForToken(request);
+            System.out.println("token中的userId=="+userId);
             UserLoginVo userLoginVo = userService.getLoginInfo(userId);
-            return R.ok().data("item", userLoginVo);
+            //User user = userMapper.selectById(userId);
+            return R.ok().data("user", userLoginVo.getUsername());
         } catch (Exception e) {
             e.printStackTrace();
             log.error(ExceptionUtil.getMessage(e));
@@ -152,6 +116,5 @@ public class UserController {
             log.error(ExceptionUtil.getMessage(e));
             return R.error().message("修改失败！");
         }
-
     }
 }

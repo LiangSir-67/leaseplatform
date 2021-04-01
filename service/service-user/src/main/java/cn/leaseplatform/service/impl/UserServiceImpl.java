@@ -3,6 +3,7 @@ package cn.leaseplatform.service.impl;
 import cn.hutool.crypto.SecureUtil;
 import cn.leaseplatform.commonutils.JwtUtils;
 import cn.leaseplatform.entity.User;
+import cn.leaseplatform.utils.UserJwtTokenUtils;
 import cn.leaseplatform.vo.UserLoginVo;
 import cn.leaseplatform.vo.UserRegisterVo;
 import cn.leaseplatform.mapper.UserMapper;
@@ -19,6 +20,8 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
 import javax.servlet.http.HttpServletResponse;
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * <p>
@@ -29,7 +32,7 @@ import javax.servlet.http.HttpServletResponse;
  * @since 2021-03-22
  */
 @Service
-public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
+public class  UserServiceImpl extends ServiceImpl<UserMapper, User> implements UserService {
 
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
@@ -101,7 +104,11 @@ public class UserServiceImpl extends ServiceImpl<UserMapper, User> implements Us
         }
 
         //使用JWT生成token字符串
-        String jwtToken = JwtUtils.getJwtToken(String.valueOf(user.getUserId()), user.getUsername());
+        //String jwtToken = JwtUtils.getJwtToken(String.valueOf(user.getUserId()), user.getUsername());
+        Map<String,String> payload = new HashMap<>();
+        payload.put("userId", String.valueOf(user.getUserId()));
+        payload.put("username",user.getUsername());
+        String jwtToken = UserJwtTokenUtils.getToken(payload);
         return jwtToken;
     }
 

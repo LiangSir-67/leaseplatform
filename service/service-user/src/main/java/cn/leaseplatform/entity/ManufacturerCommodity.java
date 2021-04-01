@@ -54,6 +54,4 @@ public class ManufacturerCommodity implements Serializable {
     @TableField(fill = FieldFill.INSERT_UPDATE)
     @ApiModelProperty(value = "更新时间")
     private LocalDateTime updateTime;
-
-
 }

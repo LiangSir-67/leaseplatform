@@ -21,7 +21,7 @@ public interface WorkOrdersService extends IService<WorkOrders> {
      * @param page
      * @return
      */
-    Page<UserWorkOrdersVo> getUserWorkOrders(Page<UserWorkOrdersVo> page);
+    Page<UserWorkOrdersVo> getUserWorkOrders(Page<UserWorkOrdersVo> page,Integer userId);
 
     /**
      * 用户工单条件查询

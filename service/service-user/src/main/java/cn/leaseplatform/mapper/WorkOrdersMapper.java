@@ -19,6 +19,6 @@ import java.util.List;
  */
 public interface WorkOrdersMapper extends BaseMapper<WorkOrders> {
 
-    @Select("SELECT wo.`workorder_id`,u.`user_id`,u.`username`,u.`telephone`,u.`address`,wo.`status` FROM tb_user u,tb_work_orders wo WHERE u.`user_id` = wo.`user_id` ORDER BY wo.`update_time` DESC")
-    List<UserWorkOrdersVo> getUserWorkOrders(Page<UserWorkOrdersVo> page);
+    @Select("SELECT wo.`workorder_id`,u.`user_id`,u.`username`,u.`telephone`,u.`address`,wo.`status` FROM tb_user u,tb_work_orders wo WHERE u.`user_id` = wo.`user_id` AND wo.`user_id` = #{userId} ORDER BY wo.`update_time` DESC")
+    List<UserWorkOrdersVo> getUserWorkOrders(Page<UserWorkOrdersVo> page,Integer userId);
 }

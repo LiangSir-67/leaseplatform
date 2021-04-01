@@ -12,10 +12,20 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  */
 @Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
+    private String patterns[] = {
+            "/user/userRegister",
+            "/user/userLogin",
+            "/test/**",
+            "/swagger-resources/**",
+            "/swagger-ui.html",
+            "/error","/doc.html",
+            "/v2/api-docs/**",
+            "/v2/api-docs-ext/**"
+    };
     @Override
     public void addInterceptors(InterceptorRegistry registry) {
         registry.addInterceptor(new JwtInterceptor())
                 .addPathPatterns("/**")             // 不放行，token验证
-                .excludePathPatterns("/doc.html","/user/userRegister","/user/userLogin");   // 放行
+                .excludePathPatterns(patterns);   // 放行
     }
 }

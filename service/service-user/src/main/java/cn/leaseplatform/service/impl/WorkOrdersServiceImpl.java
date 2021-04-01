@@ -21,10 +21,9 @@ import org.springframework.stereotype.Service;
  */
 @Service
 public class WorkOrdersServiceImpl extends ServiceImpl<WorkOrdersMapper, WorkOrders> implements WorkOrdersService {
-
     @Override
-    public Page<UserWorkOrdersVo> getUserWorkOrders(Page<UserWorkOrdersVo> page) {
-        return page.setRecords(this.baseMapper.getUserWorkOrders(page));
+    public Page<UserWorkOrdersVo> getUserWorkOrders(Page<UserWorkOrdersVo> page, Integer userId) {
+        return page.setRecords(this.baseMapper.getUserWorkOrders(page,userId));
     }
 
     @Override

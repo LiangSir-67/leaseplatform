@@ -16,10 +16,7 @@ import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.HashMap;
@@ -27,6 +24,7 @@ import java.util.Map;
 
 @Api(tags = "测试")
 @RestController
+@RequestMapping("/test")
 public class TestController {
 
     @Autowired
@@ -76,7 +74,7 @@ public class TestController {
     }
 
     @ApiOperation(value = "这是统一返回结果测试！")
-    @GetMapping("/test/hello")
+    @GetMapping("/hello")
     public R hello() {
         Map<String, String> data = new HashMap<>();
         data.put("name", "亚索");
@@ -90,7 +88,7 @@ public class TestController {
      * @return
      */
     @ApiOperation(value = "这是异常测试！")
-    @GetMapping("/test/exception")
+    @GetMapping("/exception")
     public R test() {
         try {
             // int i = 1/0;

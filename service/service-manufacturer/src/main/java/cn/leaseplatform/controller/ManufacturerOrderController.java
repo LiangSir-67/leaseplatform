@@ -49,9 +49,6 @@ public class ManufacturerOrderController {
 
         List<ManorderVo> manorderVo =manufacturerOrderService.getManorderVo();
         return R.ok().data("manorderVo",manorderVo);
-
-
-
     }
 
 }

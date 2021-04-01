@@ -46,7 +46,7 @@ public class CodeGenerator {
         String projectPath = System.getProperty("user.dir");
        gc.setOutputDir(projectPath + "/src/main/java");
 //         gc.setOutputDir("D:\\test");
-        gc.setAuthor("此处留名QCS");
+        gc.setAuthor("梁歪歪");
         gc.setOpen(false);
         gc.setSwagger2(true); // 实体属性 Swagger2 注解
         gc.setServiceName("%sService");

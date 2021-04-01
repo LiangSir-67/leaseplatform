@@ -3,6 +3,8 @@ package cn.leaseplatform.service;
 import cn.leaseplatform.entity.User;
 import cn.leaseplatform.entity.UserLoginVo;
 import cn.leaseplatform.entity.UserRegisterVo;
+import cn.leaseplatform.vo.UserLoginVo;
+import cn.leaseplatform.vo.UserRegisterVo;
 import com.baomidou.mybatisplus.extension.service.IService;
 
 /**
@@ -33,4 +35,18 @@ public interface UserService extends IService<User> {
      * @return
      */
     UserLoginVo getLoginInfo(String userId);
+
+    /**
+     * 修改用户头像
+     * @param userId
+     * @param url
+     */
+    Integer updateUserHeadPortrait(String userId,String url);
+
+    /**
+     * 修改用户信息
+     * @param userId
+     * @param address
+     */
+    Integer updateUserInfo(String userId,String address);
 }

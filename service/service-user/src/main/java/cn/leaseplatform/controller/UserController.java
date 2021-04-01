@@ -1,6 +1,5 @@
 package cn.leaseplatform.controller;
 
-
 import cn.hutool.crypto.SecureUtil;
 import cn.leaseplatform.commonutils.JwtUtils;
 import cn.leaseplatform.commonutils.R;
@@ -9,16 +8,30 @@ import cn.leaseplatform.entity.UserLoginVo;
 import cn.leaseplatform.entity.UserRegisterVo;
 import cn.leaseplatform.mapper.UserMapper;
 import cn.leaseplatform.service.UserService;
+import cn.leaseplatform.commonutils.ExceptionUtil;
+import cn.leaseplatform.commonutils.JwtUtils;
+import cn.leaseplatform.commonutils.R;
+import cn.leaseplatform.entity.User;
+import cn.leaseplatform.utils.UserJwtTokenUtils;
+import cn.leaseplatform.vo.UserLoginVo;
+import cn.leaseplatform.vo.UserRegisterVo;
+import cn.leaseplatform.mapper.UserMapper;
+import cn.leaseplatform.service.UserService;
+import com.auth0.jwt.interfaces.DecodedJWT;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import com.google.gson.Gson;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import lombok.extern.slf4j.Slf4j;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
 import java.util.List;
+import javax.servlet.http.HttpServletResponse;
 
 /**
  * <p>
@@ -31,7 +44,11 @@ import java.util.List;
 @Api(tags = "用户服务")
 @RestController
 @RequestMapping("/user")
+@Slf4j
 public class UserController {
+
+    @Autowired
+    private UserService userService;
 
     @Autowired
     private UserMapper userMapper;
@@ -50,35 +67,77 @@ public class UserController {
         user.setTelephone("15500432343");
         user.setUrl("https://gitee.com/liangsir-67/imagerepo/raw/master/img/20210303215459.png");
         user.setAddress("四川成都");
-
-        int result = userMapper.insert(user);
-        System.out.println("影响的行数："+result);
-        System.out.println(user);
+    @ApiOperation(value = "个人账户注册")
+    @PostMapping("/userRegister")
+    public R userRegister(@RequestBody UserRegisterVo userRegisterVo){
+        try {
+            userService.register(userRegisterVo);
+            return R.ok().message("注册成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(ExceptionUtil.getMessage(e));
+            return R.error().message("注册失败！");
+        }
     }
 
-    @ApiOperation(value = "测试-获取用户列表")
-    @GetMapping("/getUser")
-    public R testGetUserList(@RequestParam(defaultValue = "1") Integer currentPage){
-        Page<User> page = new Page<>(currentPage, 10);
-        IPage<User> userIPage = userMapper.selectPage(page, new QueryWrapper<User>().orderByDesc("create_time"));
-        // List<User> users = userMapper.selectList(null);
-        // users.forEach(System.out::println);
-        return R.ok().data("userInfo",userIPage);
+    @ApiOperation(value = "个人账户登录")
+    @PostMapping("/userLogin")
+    public R userLogin(@RequestBody UserLoginVo userLoginVo, HttpServletResponse httpServletResponse){
+        String token = null;
+        try {
+            token = userService.login(userLoginVo);
+            return R.ok().data("token",token).message("登录成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(ExceptionUtil.getMessage(e));
+            return R.error().message("登录失败！");
+        }
     }
 
-    @ApiOperation(value = "测试-通过id修改用户信息")
-    @GetMapping("/updateById")
-    public void testUpdateById(){
-        User user = new User();
-        user.setUserId(109);
-        user.setUsername("锐雯");
-        user.setSex("女");
-        user.setPassword("23dsf4dsf");
-        user.setTelephone("15540432343");
-        user.setUrl("https://gitee.com/liangsir-67/imagerepo/raw/master/img/20210303215459.png");
-        user.setAddress("四川成都");
-        int result = userMapper.updateById(user);
-        System.out.println("被影响的行数："+result);
+    @ApiOperation(value = "根据token获取登录信息")
+    @GetMapping("/auth/getLoginInfo")
+    public R getUserLoginInfo(HttpServletRequest request) {
+        // 获取请求头中的token
+        //String token = request.getHeader("token");
+        //DecodedJWT verify = UserJwtTokenUtils.verify(token);
+        try {
+            //String userId = verify.getClaim("userId").asString();
+            String userId = UserJwtTokenUtils.getInfoForToken(request);
+            System.out.println("token中的userId=="+userId);
+            UserLoginVo userLoginVo = userService.getLoginInfo(userId);
+            //User user = userMapper.selectById(userId);
+            return R.ok().data("user", userLoginVo.getUsername());
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(ExceptionUtil.getMessage(e));
+            return R.error().message("获取用户登录信息失败！");
+        }
+    }
+
+    @ApiOperation(value = "修改用户头像")
+    @PostMapping("/updateUserHeadPortrait")
+    public R updateUserHeadPortrait(@RequestParam String userId, @RequestParam String url){
+        try {
+            Integer result = userService.updateUserHeadPortrait(userId, url);
+            return R.ok().message("修改成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(ExceptionUtil.getMessage(e));
+            return R.error().message("修改失败！");
+        }
+    }
+
+    @ApiOperation(value = "用户修改信息")
+    @PostMapping("/updateUserInfo")
+    public R updateUserInfo(@RequestParam String userId,@RequestParam String address){
+        try {
+            Integer result = userService.updateUserInfo(userId, address);
+            return R.ok().message("修改成功！");
+        } catch (Exception e) {
+            e.printStackTrace();
+            log.error(ExceptionUtil.getMessage(e));
+            return R.error().message("修改失败！");
+        }
     }
 
 

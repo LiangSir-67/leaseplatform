@@ -2,6 +2,7 @@ package cn.leaseplatform.controller;
 
 
 import cn.leaseplatform.commonutils.R;
+import cn.leaseplatform.entity.ManorderVo;
 import cn.leaseplatform.entity.ManufacturerOrder;
 import cn.leaseplatform.mapper.ManufacturerOrderMapper;
 import cn.leaseplatform.service.ManufacturerOrderService;
@@ -9,8 +10,11 @@ import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
+import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.List;
 
 /**
  * <p>
@@ -37,6 +41,16 @@ public class ManufacturerOrderController {
         IPage<ManufacturerOrder> manufacturerOrderIPage =
                 manufacturerOrderMapper.selectPage(page,new QueryWrapper<ManufacturerOrder>().orderByDesc("create_time"));
         return R.ok().data("manufacturersInfo",manufacturerOrderIPage);
+    }
+
+    @ApiOperation(value = "连表查询订单信息")
+    @GetMapping("/getorderinfo2")
+    public R getOrderInfo2(){
+
+        List<ManorderVo> manorderVo =manufacturerOrderService.getManorderVo();
+        return R.ok().data("manorderVo",manorderVo);
+
+
 
     }
 

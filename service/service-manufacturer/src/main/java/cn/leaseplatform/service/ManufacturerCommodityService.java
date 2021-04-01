@@ -3,6 +3,8 @@ package cn.leaseplatform.service;
 import cn.leaseplatform.entity.ManufacturerCommodity;
 import com.baomidou.mybatisplus.extension.service.IService;
 
+import java.util.List;
+
 /**
  * <p>
  *  服务类
@@ -12,5 +14,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-03-24
  */
 public interface ManufacturerCommodityService extends IService<ManufacturerCommodity> {
-
+    public List<ManufacturerCommodity> getByManId(Long Manid);
 }

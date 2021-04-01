@@ -13,7 +13,7 @@ import lombok.EqualsAndHashCode;
 
 /**
  * <p>
- * 
+ *
  * </p>
  *
  * @author 此处留名QCS
@@ -47,7 +47,10 @@ public class ManufacturerCommodity implements Serializable {
 
     @ApiModelProperty(value = "厂商编号")
     @TableField("Manufacturer_id")
-    private Integer manufacturerId;
+    private Long manufacturerId;
+
+    @ApiModelProperty(value = "状态")
+    private Integer status;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;

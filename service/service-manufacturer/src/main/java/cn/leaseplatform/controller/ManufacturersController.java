@@ -3,10 +3,10 @@ package cn.leaseplatform.controller;
 
 import cn.leaseplatform.commonutils.JwtUtils;
 import cn.leaseplatform.commonutils.R;
+import cn.leaseplatform.commonutils.TokenUtils;
 import cn.leaseplatform.entity.LoginVo;
 import cn.leaseplatform.entity.RegisterVo;
 import cn.leaseplatform.service.ManufacturersService;
-import cn.leaseplatform.servicebase.exceptionhandler.LPException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -75,5 +75,20 @@ public class ManufacturersController {
             return R.error();
         }
     }
+
+
+    @ApiOperation(value = "获取当前登录")
+    @GetMapping("auth/getlogin")
+    public R getLogin(HttpServletRequest request) {
+
+        String ID = TokenUtils.getId(request);
+        return R.ok().data("ID",ID);
+
+    }
+
+
+
+
+
 
 }

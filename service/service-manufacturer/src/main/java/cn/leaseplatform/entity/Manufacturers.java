@@ -30,7 +30,7 @@ public class Manufacturers implements Serializable {
 
     @ApiModelProperty(value = "厂商编号")
     @TableId(value = "Manufacturer_id", type = IdType.AUTO)
-    private Integer manufacturerId;
+    private Long manufacturerId;
 
     @ApiModelProperty(value = "商户名称")
     @TableField("Businesses_name")
@@ -48,6 +48,8 @@ public class Manufacturers implements Serializable {
     @ApiModelProperty(value = "商户简介")
     @TableField("Businesses_intro")
     private String businessesIntro;
+    @ApiModelProperty(value = "状态")
+    private Integer status;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;

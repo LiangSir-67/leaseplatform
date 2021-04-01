@@ -9,7 +9,7 @@ import lombok.Data;
 @ApiModel(value = "登录对象",description = "登陆对象")
 public class LoginVo {
     @ApiModelProperty(value = "商家用户名")
-    private String adminname;
+    private String businessesName;
     @ApiModelProperty(value = "密码")
     private String password;
 }

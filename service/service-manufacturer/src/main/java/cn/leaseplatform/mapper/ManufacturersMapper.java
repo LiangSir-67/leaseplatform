@@ -2,6 +2,8 @@ package cn.leaseplatform.mapper;
 
 import cn.leaseplatform.entity.Manufacturers;
 import com.baomidou.mybatisplus.core.mapper.BaseMapper;
+import org.apache.ibatis.annotations.Param;
+import org.apache.ibatis.annotations.Select;
 
 /**
  * <p>
@@ -12,5 +14,8 @@ import com.baomidou.mybatisplus.core.mapper.BaseMapper;
  * @since 2021-03-29
  */
 public interface ManufacturersMapper extends BaseMapper<Manufacturers> {
+
+    @Select("select * from tb_Manufacturers where Manufacturer_id=#{Id}")
+    public Manufacturers getLoginMan(@Param("Id") String Id);
 
 }

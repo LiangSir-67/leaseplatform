@@ -2,18 +2,18 @@ package cn.leaseplatform.controller;
 
 
 import cn.leaseplatform.commonutils.R;
+import cn.leaseplatform.commonutils.TokenUtils;
 import cn.leaseplatform.entity.ManufacturerCommodity;
-import cn.leaseplatform.entity.ManufacturerOrder;
 import cn.leaseplatform.mapper.ManufacturerCommodityMapper;
 import cn.leaseplatform.service.ManufacturerCommodityService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -37,12 +37,11 @@ public class ManufacturerCommodityController {
 
     @ApiOperation(value = "获取所有商品")
     @GetMapping("/getcommoditys")
-    public R getCommoditys(@RequestParam(defaultValue = "1") Integer currentPage){
-
-        Page<ManufacturerCommodity> page = new Page<>(currentPage, 10);
-        IPage<ManufacturerCommodity> manufacturerCommodityIPage =
-                commodityMapper.selectPage(page,new QueryWrapper<ManufacturerCommodity>().orderByDesc("create_time"));
-        return R.ok().data("commoditysinfo",manufacturerCommodityIPage);
+    public R getCommoditys(HttpServletRequest request){
+        String ID= TokenUtils.getId(request);
+        Long Manid=Long.parseLong(ID);
+        List<ManufacturerCommodity> manufacturerCommodities=manufacturerCommodityService.getByManId(Manid);
+        return R.ok().data("manfa",manufacturerCommodities);
 
     }
     @ApiOperation(value = "删除商品")

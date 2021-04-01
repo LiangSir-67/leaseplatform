@@ -1,7 +1,10 @@
 package cn.leaseplatform.service;
 
+import cn.leaseplatform.entity.ManorderVo;
 import cn.leaseplatform.entity.ManufacturerOrder;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -12,5 +15,7 @@ import com.baomidou.mybatisplus.extension.service.IService;
  * @since 2021-03-23
  */
 public interface ManufacturerOrderService extends IService<ManufacturerOrder> {
+
+    public List<ManorderVo> getManorderVo();
 
 }

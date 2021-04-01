@@ -34,7 +34,7 @@ public class ManufacturersServiceImpl extends ServiceImpl<ManufacturersMapper, M
     @Override
     public String login(LoginVo loginVo) {
         //获取登录账号和密码
-        String adminname = loginVo.getAdminname();
+        String adminname = loginVo.getBusinessesName();
         String password = loginVo.getPassword();
 
         //账号号和密码非空判断
@@ -106,6 +106,8 @@ public class ManufacturersServiceImpl extends ServiceImpl<ManufacturersMapper, M
         BeanUtils.copyProperties(manufacturers, loginVo);
         return loginVo;
     }
+
+
 
 
 }

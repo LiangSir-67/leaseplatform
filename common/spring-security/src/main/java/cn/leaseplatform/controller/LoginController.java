@@ -34,6 +34,7 @@ public class LoginController {
         return token;
     }
 
+
     @PostMapping("haha")
     public String haha(){
         UserDetails userDetails = (UserDetails) org.springframework.security.core.context.SecurityContextHolder.getContext().getAuthentication().getPrincipal();

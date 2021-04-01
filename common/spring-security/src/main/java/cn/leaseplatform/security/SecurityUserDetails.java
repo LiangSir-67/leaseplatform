@@ -65,4 +65,5 @@ public class SecurityUserDetails extends User implements UserDetails {
     public boolean isEnabled() {
         return true;
     }
+
 }

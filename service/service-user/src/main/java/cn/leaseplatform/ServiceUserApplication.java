@@ -3,6 +3,7 @@ package cn.leaseplatform;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.cloud.client.discovery.EnableDiscoveryClient;
 import org.springframework.context.annotation.ComponentScan;
 import springfox.documentation.swagger2.annotations.EnableSwagger2;
 
@@ -18,6 +19,7 @@ import springfox.documentation.swagger2.annotations.EnableSwagger2;
         "cn.leaseplatform.handler"
 })
 @EnableSwagger2
+@EnableDiscoveryClient  // 开启服务注册与发现
 public class ServiceUserApplication {
     public static void main(String[] args) {
         SpringApplication.run(ServiceUserApplication.class,args);

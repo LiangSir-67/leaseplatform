@@ -7,3 +7,31 @@ spring:
     nacos:
       discovery:
         server-addr: 127.0.0.1:8848
+    gateway:
+      routes: #路由数组
+        - id: user-route  # 当前路由的标识，要求唯一，可以随便写
+          uri: lb://service-user # lb指的是 从nacos中按照名称获取微服务，并遵循负载均衡策略
+          predicates: # 断言
+            - Path=/user/**
+          filters: # 过滤器，请求再传递过程中可以通过过滤器对其进行一定的修改
+            - StripPrefix=1   # 转发之前去掉1层路径
+        - id: msm-route
+          uri: lb://service-msm
+          predicates:
+            - Path=/msm/**
+          filters:
+            - StripPrefix=1
+        - id: oss-route
+          uri: lb://service-oss
+          predicates:
+            - Path=/oss/**
+          filters:
+            - StripPrefix=1
+        - id: service-manufacturer
+          uri: lb://service-manufacturer
+          predicates:
+            - Path=/manufacturer/**
+          filters:
+            - StripPrefix=1
+  main:
+    allow-bean-definition-overriding: true

@@ -1,4 +1,4 @@
-/*
+package cn.leaseplatform.config;/*
 package cn.leaseplatform.config;
 
 

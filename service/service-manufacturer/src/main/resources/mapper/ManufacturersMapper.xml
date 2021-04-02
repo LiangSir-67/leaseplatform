@@ -2,4 +2,14 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.leaseplatform.mapper.ManufacturersMapper">
 
+
+    <update id="editManFctureInfo">
+		update tb_Manufacturers
+		set
+		Businesses_name=#{manfactureVo.businessesName},Corporate_name=#{manfactureVo.corporateName},business_code=#{manfactureVo.businessCode},
+		License_Picture=#{manfactureVo.licensePicture},Businesses_intro=#{manfactureVo.businessesIntro}
+		where Manufacturer_id = #{BusiId}
+	</update>
+
+
 </mapper>

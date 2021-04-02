@@ -17,7 +17,7 @@ import java.util.List;
 
 /**
  * <p>
- *  前端控制器
+ * 前端控制器
  * </p>
  *
  * @author 此处留名QCS
@@ -34,24 +34,36 @@ public class ManufacturerCommodityController {
     private ManufacturerCommodityMapper commodityMapper;
 
 
-
     @ApiOperation(value = "获取所有商品")
     @GetMapping("/getcommoditys")
-    public R getCommoditys(HttpServletRequest request){
-        String ID= TokenUtils.getId(request);
-        Long Manid=Long.parseLong(ID);
-        List<ManufacturerCommodity> manufacturerCommodities=manufacturerCommodityService.getByManId(Manid);
-        return R.ok().data("manfa",manufacturerCommodities);
+    public R getCommoditys(HttpServletRequest request) {
+        try {
+            String ID = TokenUtils.getId(request);
+            Long Manid = Long.parseLong(ID);
+            List<ManufacturerCommodity> manufacturerCommodities = manufacturerCommodityService.getByManId(Manid);
+            return R.ok().data("manfa", manufacturerCommodities);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return R.error();
+        }
 
     }
+
     @ApiOperation(value = "删除商品")
     @DeleteMapping("/deletecommoditys/{id}")
-    public R deleteCommoditys(@ApiParam(name = "id",value = "商品id",required = true) @PathVariable Integer id){
-
-        boolean flag =manufacturerCommodityService.removeById(id);
-        if(flag){
-            return R.ok();
-        }else{
+    public R deleteCommoditys(HttpServletRequest request, @ApiParam(name = "id", value = "商品id", required = true) @PathVariable Integer id) {
+        String ID = TokenUtils.getId(request);
+        //Long Manid = Long.parseLong(ID);
+        System.out.println("删除商品的id为"+id);
+        try {
+            boolean flag = manufacturerCommodityService.removeById(id);
+            if (flag) {
+                return R.ok();
+            } else {
+                return R.error();
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
             return R.error();
         }
 
@@ -59,12 +71,21 @@ public class ManufacturerCommodityController {
 
     @ApiOperation(value = "新增商品")
     @PostMapping("/insertcommoditys")
-    public R saveCommoditys(@ApiParam(name = "manufacturerCommodity",value = "商品对象",required = true)
-                                @RequestBody ManufacturerCommodity manufacturerCommodity){
-        Boolean save =manufacturerCommodityService.save(manufacturerCommodity);
-        if(save){
-            return R.ok();
-        }else{
+    public R saveCommoditys(HttpServletRequest request, @ApiParam(name = "manufacturerCommodity", value = "商品对象", required = true)
+    @RequestBody ManufacturerCommodity manufacturerCommodity) {
+        try {
+            String ID = TokenUtils.getId(request);
+            Long Manid = Long.parseLong(ID);
+            System.out.println("商家ID="+Manid);
+            manufacturerCommodity.setManufacturerId(Manid);
+            Boolean save = manufacturerCommodityService.save(manufacturerCommodity);
+            if (save) {
+                return R.ok();
+            } else {
+                return R.error();
+            }
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
             return R.error();
         }
 
@@ -72,11 +93,11 @@ public class ManufacturerCommodityController {
 
     @ApiOperation(value = "商品详情")
     @GetMapping("/getcommoditysbyid/{id}")
-    public R getCommoditysByid(@PathVariable Integer id){
-        ManufacturerCommodity manufacturerCommodity=manufacturerCommodityService.getById(id);
-        if(manufacturerCommodity!=null){
-            return R.ok().data("manufacturerCommodity",manufacturerCommodity);
-        }else{
+    public R getCommoditysByid(HttpServletRequest request,@PathVariable Integer id) {
+        ManufacturerCommodity manufacturerCommodity = manufacturerCommodityService.getById(id);
+        if (manufacturerCommodity != null) {
+            return R.ok().data("manufacturerCommodity", manufacturerCommodity);
+        } else {
             return R.error();
         }
 
@@ -84,15 +105,18 @@ public class ManufacturerCommodityController {
 
     @ApiOperation(value = "根据id修改商品")
     @PutMapping("/editcommoditys/{id}")
-    public R editCommoditys(@PathVariable Integer id,@RequestBody ManufacturerCommodity manufacturerCommodity){
+    public R editCommoditys(HttpServletRequest request,@PathVariable Integer id, @RequestBody ManufacturerCommodity manufacturerCommodity) {
 
-
-        manufacturerCommodity.setCommodityId(id);
-        manufacturerCommodityService.updateById(manufacturerCommodity);
-        return R.ok();
+        try {
+            manufacturerCommodity.setCommodityId(id);
+            manufacturerCommodityService.updateById(manufacturerCommodity);
+            return R.ok();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
 
     }
-
 
 
 }

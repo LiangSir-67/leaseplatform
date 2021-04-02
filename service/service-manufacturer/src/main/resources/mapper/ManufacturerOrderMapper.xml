@@ -2,4 +2,54 @@
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="cn.leaseplatform.mapper.ManufacturerOrderMapper">
 
+
+
+
+
+
+
+    <select id="getManorderVo" resultMap="ManOrderVo">
+        SELECT
+	    p.order_id _orderId,
+	    u.user_id _userId,
+	    u.address _address,
+	    u.telephone _telephone,
+	    p.Amount _Amount,
+	    u.status _status
+        FROM
+	    tb_personal_orders p
+	    JOIN tb_user u ON P.user_id = u.user_id
+	    JOIN tb_Manufacturer_Commodity m ON p.Commodity_id= m.Commodity_id
+        WHERE
+	    m.Manufacturer_id =#{Manid}
+
+    </select>
+
+
+    <resultMap id="ManOrderVo" type="cn.leaseplatform.entity.ManOrderVo">
+        <result property="orderId" column="_orderId"/>
+        <result property="userId" column="_userId"/>
+        <result property="address" column="_address"/>
+        <result property="telephone" column="_telephone"/>
+        <result property="Amount" column="_Amount"/>
+        <result property="status" column="_status"/>
+    </resultMap>
+
+    <select id="getOrdertInfoByOrderId" resultType="cn.leaseplatform.entity.ManOrderVo">
+        SELECT
+	    p.order_id _orderId,
+	    u.user_id _userId,
+	    u.address _address,
+	    u.telephone _telephone,
+	    p.Amount _Amount,
+	    u.status _status
+        FROM
+	    tb_personal_orders p
+	    JOIN tb_user u ON P.user_id = u.user_id
+	    JOIN tb_Manufacturer_Commodity m ON p.Commodity_id= m.Commodity_id
+        WHERE
+	    m.Manufacturer_id =#{Manid} and p.order_id=#{orderId}
+
+    </select>
+
 </mapper>

@@ -9,7 +9,7 @@ import java.math.BigInteger;
 
 @Data
 @ApiModel(value = "订单对象",description = "订单对象")
-public class ManorderVo {
+public class ManOrderVo {
 
     @ApiModelProperty(value = "订单编号")
     private Long orderId;
@@ -23,8 +23,11 @@ public class ManorderVo {
     @ApiModelProperty(value = "电话号码")
     private String telephone;
 
-    /*@ApiModelProperty(value = "金额")
-    private Integer Amount;*/
+    @ApiModelProperty(value = "金额")
+    private Integer Amount;
+
+    @ApiModelProperty(value = "状态")
+    private Integer status;
 
 
 

@@ -1,7 +1,6 @@
 package cn.leaseplatform.service.impl;
 
-import cn.leaseplatform.commonutils.R;
-import cn.leaseplatform.entity.ManorderVo;
+import cn.leaseplatform.entity.ManOrderVo;
 import cn.leaseplatform.entity.ManufacturerOrder;
 import cn.leaseplatform.mapper.ManufacturerOrderMapper;
 import cn.leaseplatform.service.ManufacturerOrderService;
@@ -36,10 +35,13 @@ public class ManufacturerOrderServiceImpl extends ServiceImpl<ManufacturerOrderM
     private ManufacturerOrderMapper manufacturerOrderMapper;
 
     @Override
-    public List<ManorderVo> getManorderVo(){
-        return manufacturerOrderMapper.getManorderVo();
+    public List<ManOrderVo> getManorderVo(Long Manid){
+        return manufacturerOrderMapper.getManorderVo(Manid);
 
-
+    }
+    @Override
+    public ManOrderVo getOrdertInfoByOrderId(Long Manid,Long orderId){
+        return manufacturerOrderMapper.getOrdertInfoByOrderId(Manid,orderId);
     }
 
 }

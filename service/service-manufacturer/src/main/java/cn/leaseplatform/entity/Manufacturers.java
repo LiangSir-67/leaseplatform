@@ -17,8 +17,8 @@ import java.time.LocalDateTime;
  *
  * </p>
  *
- * @author 此处留名QCS
- * @since 2021-03-29
+ * @author 梁歪歪
+ * @since 2021-04-01
  */
 @Data
 @EqualsAndHashCode(callSuper = false)
@@ -32,6 +32,10 @@ public class Manufacturers implements Serializable {
     @TableId(value = "Manufacturer_id", type = IdType.AUTO)
     private Long manufacturerId;
 
+    @ApiModelProperty(value = "商户头像")
+    @TableField("Businesses_avatar")
+    private String businessesAvatar;
+
     @ApiModelProperty(value = "商户名称")
     @TableField("Businesses_name")
     private String businessesName;
@@ -42,14 +46,26 @@ public class Manufacturers implements Serializable {
     @ApiModelProperty(value = "手机号")
     private String phone;
 
-    @ApiModelProperty(value = "商户图片")
-    private String url;
+    @ApiModelProperty(value = "状态")
+    private Integer status;
+
+    @ApiModelProperty(value = "法人姓名")
+    @TableField("Corporate_name")
+    private String corporateName;
+
+    @ApiModelProperty(value = "营业执照编码")
+    private String businessCode;
+
+    @ApiModelProperty(value = "营业执照")
+    @TableField("License_Picture")
+    private String licensePicture;
 
     @ApiModelProperty(value = "商户简介")
     @TableField("Businesses_intro")
     private String businessesIntro;
-    @ApiModelProperty(value = "状态")
-    private Integer status;
+
+    @ApiModelProperty(value = "原因")
+    private String reason;
 
     @ApiModelProperty(value = "创建时间")
     private LocalDateTime createTime;

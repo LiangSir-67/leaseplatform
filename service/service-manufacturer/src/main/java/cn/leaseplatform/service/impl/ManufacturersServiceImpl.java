@@ -2,6 +2,7 @@ package cn.leaseplatform.service.impl;
 
 import cn.leaseplatform.commonutils.JwtUtils;
 import cn.leaseplatform.entity.LoginVo;
+import cn.leaseplatform.entity.ManfactureVo;
 import cn.leaseplatform.entity.Manufacturers;
 import cn.leaseplatform.entity.RegisterVo;
 import cn.leaseplatform.mapper.ManufacturersMapper;
@@ -29,6 +30,9 @@ public class ManufacturersServiceImpl extends ServiceImpl<ManufacturersMapper, M
 
     @Autowired
     private RedisTemplate<String, String> redisTemplate;
+
+    @Autowired
+    private ManufacturersMapper manufacturersMapper;
 
     //登录的方法
     @Override
@@ -105,6 +109,18 @@ public class ManufacturersServiceImpl extends ServiceImpl<ManufacturersMapper, M
         LoginVo loginVo = new LoginVo();
         BeanUtils.copyProperties(manufacturers, loginVo);
         return loginVo;
+    }
+
+    @Override
+    public void editManPicture(String url,Long BusiId){
+
+        manufacturersMapper.editManPicture(url,BusiId);
+
+    }
+
+    @Override
+    public void editManFctureInfo(ManfactureVo manfactureVo, Long BusiId){
+        manufacturersMapper.editManFctureInfo(manfactureVo,BusiId);
     }
 
 

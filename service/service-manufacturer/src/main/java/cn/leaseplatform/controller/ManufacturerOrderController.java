@@ -2,18 +2,17 @@ package cn.leaseplatform.controller;
 
 
 import cn.leaseplatform.commonutils.R;
-import cn.leaseplatform.entity.ManorderVo;
-import cn.leaseplatform.entity.ManufacturerOrder;
+import cn.leaseplatform.commonutils.TokenUtils;
+import cn.leaseplatform.entity.ManOrderVo;
 import cn.leaseplatform.mapper.ManufacturerOrderMapper;
 import cn.leaseplatform.service.ManufacturerOrderService;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
-import com.baomidou.mybatisplus.core.metadata.IPage;
-import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import javax.servlet.http.HttpServletRequest;
+import java.security.PublicKey;
 import java.util.List;
 
 /**
@@ -34,21 +33,37 @@ public class ManufacturerOrderController {
     @Autowired
     private ManufacturerOrderMapper manufacturerOrderMapper;
 
-    @PostMapping("/getorderinfo")
-    public R getOrderInfo(@RequestParam(defaultValue = "1") Integer currentPage){
-
-        Page<ManufacturerOrder> page = new Page<>(currentPage, 10);
-        IPage<ManufacturerOrder> manufacturerOrderIPage =
-                manufacturerOrderMapper.selectPage(page,new QueryWrapper<ManufacturerOrder>().orderByDesc("create_time"));
-        return R.ok().data("manufacturersInfo",manufacturerOrderIPage);
-    }
-
-    @ApiOperation(value = "连表查询订单信息")
+    @ApiOperation(value = "获取厂商订单信息")
     @GetMapping("/getorderinfo2")
-    public R getOrderInfo2(){
-
-        List<ManorderVo> manorderVo =manufacturerOrderService.getManorderVo();
-        return R.ok().data("manorderVo",manorderVo);
+    public R getOrderInfo(HttpServletRequest request){
+        try {
+            String ID = TokenUtils.getId(request);
+            Long Manid = Long.parseLong(ID);
+            System.out.println("厂商id"+Manid);
+            List<ManOrderVo> manorderVo =manufacturerOrderService.getManorderVo(Manid);
+            return R.ok().data("manorderVo",manorderVo);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return R.error();
+        }
     }
+
+
+    @ApiOperation("根据订单编号获取订单")
+    @PostMapping("/getorderbyorderid/{orderId}")
+    public R getOrdertInfoByOrderId(HttpServletRequest request,@PathVariable Long orderId){
+        try {
+            String ID = TokenUtils.getId(request);
+            Long Manid = Long.parseLong(ID);
+            ManOrderVo manOrderVo = manufacturerOrderService.getOrdertInfoByOrderId(Manid,orderId);
+            return R.ok().data("manOrderVo",manOrderVo);
+        } catch (NumberFormatException e) {
+            e.printStackTrace();
+            return R.error();
+        }
+
+    }
+
+
 
 }

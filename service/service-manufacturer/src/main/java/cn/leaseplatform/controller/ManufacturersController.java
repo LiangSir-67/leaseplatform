@@ -5,8 +5,11 @@ import cn.leaseplatform.commonutils.JwtUtils;
 import cn.leaseplatform.commonutils.R;
 import cn.leaseplatform.commonutils.TokenUtils;
 import cn.leaseplatform.entity.LoginVo;
+import cn.leaseplatform.entity.ManfactureVo;
+import cn.leaseplatform.entity.Manufacturers;
 import cn.leaseplatform.entity.RegisterVo;
 import cn.leaseplatform.service.ManufacturersService;
+import cn.leaseplatform.servicebase.exceptionhandler.LPException;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
@@ -14,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.HttpServletRequest;
+import java.util.List;
 
 /**
  * <p>
@@ -68,22 +72,52 @@ public class ManufacturersController {
             System.out.println(Id);
             LoginVo loginVo = manufacturersService.getLoginInfo(Id);
             return R.ok().data("item", loginVo);
-        } catch (Exception e) {
+        } catch (LPException e) {
             e.printStackTrace();
-            //throw new LPException(201, "error");
             return R.error();
         }
     }
-
-
-    @ApiOperation(value = "获取当前登录")
-    @GetMapping("auth/getlogin")
-    public R getLogin(HttpServletRequest request) {
-
+    @ApiOperation(value = "获取商家个人中心")
+    @GetMapping("/germanfainfo")
+    public R getManfaInfo(HttpServletRequest request){
         String ID = TokenUtils.getId(request);
-        return R.ok().data("ID",ID);
+        Long Id = Long.parseLong(ID);
+        try{
+            Manufacturers manufacturers =manufacturersService.getById(Id);
+            return R.ok().data("manufacturers",manufacturers);
+        }catch (LPException e){
+            return R.error();
+        }
+    }
+    @ApiOperation(value = "修改商户图片")
+    @PutMapping("/editmanpic/{url}")
+    public R editManPicture(HttpServletRequest request,@ApiParam(name = "url",value = "图片地址",required = true) @PathVariable String url){
+        try {
+            String ID = TokenUtils.getId(request);
+            Long BusiId = Long.parseLong(ID);
+            manufacturersService.editManPicture(url,BusiId);
+            return R.ok();
+        } catch (LPException e) {
+            e.printStackTrace();
+            return R.error();
+        }
+    }
+    @ApiOperation(value = "修改商家信息")
+    @PutMapping("/editmanfactureinfo")
+    public R editManFacturerInfo(HttpServletRequest request, @RequestBody ManfactureVo manfactureVo){
+
+        try {
+            String ID = TokenUtils.getId(request);
+            Long BusiId = Long.parseLong(ID);
+            manufacturersService.editManFctureInfo(manfactureVo,BusiId);
+            return R.ok();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return R.error();
+        }
 
     }
+
 
 
 

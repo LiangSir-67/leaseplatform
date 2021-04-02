@@ -1,9 +1,6 @@
 package cn.leaseplatform.service;
 
-import cn.leaseplatform.entity.LoginVo;
-import cn.leaseplatform.entity.ManorderVo;
-import cn.leaseplatform.entity.Manufacturers;
-import cn.leaseplatform.entity.RegisterVo;
+import cn.leaseplatform.entity.*;
 import com.baomidou.mybatisplus.extension.service.IService;
 import org.omg.CORBA.PUBLIC_MEMBER;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -24,7 +21,9 @@ public interface ManufacturersService extends IService<Manufacturers> {
 
     public void register(RegisterVo registerVo);
     public LoginVo getLoginInfo(String Id);
+    public void editManPicture(String url,Long BusiId);
 
+    public void editManFctureInfo(ManfactureVo manfactureVo, Long BusiId);
 
 
 }

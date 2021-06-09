@@ -3,11 +3,10 @@ package cn.leaseplatform.controller;
 
 import cn.leaseplatform.commonutils.ExceptionUtil;
 import cn.leaseplatform.commonutils.R;
-import cn.leaseplatform.entity.PersonalOrders;
 import cn.leaseplatform.interceptors.ReleaseToken;
 import cn.leaseplatform.mapper.PersonalOrdersMapper;
 import cn.leaseplatform.utils.UserJwtTokenUtils;
-import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
+import cn.leaseplatform.vo.UserPersonalOrderVo;
 import com.baomidou.mybatisplus.core.metadata.IPage;
 import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import io.swagger.annotations.Api;
@@ -34,21 +33,36 @@ public class PersonalOrdersController {
     @Autowired
     private PersonalOrdersMapper personalOrdersMapper;
 
+
+    @ApiOperation(value = "添加用户个人订单")
+    @GetMapping("/addUserPersonalOrders")
+    public R addUserPersonalOrders(UserPersonalOrderVo userPersonalOrderVo, HttpServletRequest request){
+        userPersonalOrderVo.toString();
+        try {
+            String userId = UserJwtTokenUtils.getInfoForToken(request);
+            userPersonalOrderVo.setUserId(Long.valueOf(userId));
+            int result = personalOrdersMapper.insert(userPersonalOrderVo);
+            return R.ok().data("result",result).message("添加成功！");
+        }catch (Exception e){
+            e.printStackTrace();
+            log.error(ExceptionUtil.getMessage(e));
+        }
+        return R.error().message("添加失败！");
+    }
+
     @ApiOperation(value = "获取用户个人订单")
     @GetMapping("/getUserPersonalOrders")
     public R getUserPersonalOrders(@RequestParam(defaultValue = "1") Integer currentPage,HttpServletRequest request){
-        Page<PersonalOrders> page = new Page<>(currentPage, 10);
+        Page<UserPersonalOrderVo> page = new Page<>(currentPage,10);
         try {
             String userId = UserJwtTokenUtils.getInfoForToken(request);
-            System.out.println("userId=="+userId);
-            QueryWrapper<PersonalOrders> personalOrdersQueryWrapper = new QueryWrapper<>();
-            personalOrdersQueryWrapper.eq("user_id",userId);
-            personalOrdersQueryWrapper.eq("status",1);
-            IPage<PersonalOrders> personalOrdersIPage = personalOrdersMapper.selectPage(page, personalOrdersQueryWrapper);
-            return R.ok().data("personalOrders",personalOrdersIPage).message("获取成功！");
-        } catch (Exception e) {
+            IPage<UserPersonalOrderVo> userPersonalOrderVoIPage = personalOrdersMapper.getUserPersonalOrders(page, Integer.valueOf(userId));
+            return R.ok().data("userPersonalOrderVoIPage",userPersonalOrderVoIPage).message("获取成功！");
+        }catch (Exception e){
             e.printStackTrace();
+            log.error(ExceptionUtil.getMessage(e));
         }
+
         return R.error().message("获取失败！");
     }
 
@@ -74,5 +88,4 @@ public class PersonalOrdersController {
         }
         return R.error().message("退租失败！");
     }
-
 }

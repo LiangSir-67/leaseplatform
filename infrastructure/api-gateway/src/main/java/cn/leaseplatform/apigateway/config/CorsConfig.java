@@ -40,6 +40,7 @@ public class CorsConfig {
                 headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_ORIGIN, requestHeaders.getOrigin());
                 headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_HEADERS,"Origin, No-Cache, X-Requested-With, If-Modified-Since, Pragma, Last-Modified, Cache-Control, Expires, Content-Type, Authorization, X-E4M-With,userId,token");
                 headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_CREDENTIALS, "true");
+                headers.add(HttpHeaders.ACCESS_CONTROL_ALLOW_METHODS, "POST, GET, PUT, OPTIONS, DELETE, PATCH");
                 headers.add(HttpHeaders.ACCESS_CONTROL_EXPOSE_HEADERS, "*");
                 headers.add(HttpHeaders.ACCESS_CONTROL_MAX_AGE, MAX_AGE);
                 if (request.getMethod() == HttpMethod.OPTIONS) {

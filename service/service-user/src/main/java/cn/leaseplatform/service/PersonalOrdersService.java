@@ -1,7 +1,11 @@
 package cn.leaseplatform.service;
 
 import cn.leaseplatform.entity.PersonalOrders;
+import cn.leaseplatform.vo.UserPersonalOrderVo;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
 import com.baomidou.mybatisplus.extension.service.IService;
+
+import java.util.List;
 
 /**
  * <p>
@@ -13,4 +17,5 @@ import com.baomidou.mybatisplus.extension.service.IService;
  */
 public interface PersonalOrdersService extends IService<PersonalOrders> {
 
+    Page<UserPersonalOrderVo> getUserPersonalOrders(Page<UserPersonalOrderVo> page, Integer userId);
 }
